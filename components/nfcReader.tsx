@@ -1,62 +1,60 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
+const NFCComponent = () => {
+  const handleScanClick = async () => {
+    console.log("User clicked scan button");
 
-const NFCReader: React.FC = () => {
-    const [nfcSupported, setNfcSupported] = useState(false);
-    const [tagData, setTagData] = useState('');
-    const [tagData2, setTagData2] = useState('');
+    try {
+      const ndef = new NDEFReader();
+      await ndef.scan();
+      console.log("> Scan started");
 
-    useEffect(() => {
-        if ('NDEFReader' in window) {
-            setNfcSupported(true);
-            startNFC();
-        } else {
-            alert("NFC is not supported.");
-        }
+      ndef.addEventListener("readingerror", () => {
+        console.log("Argh! Cannot read data from the NFC tag. Try another one?");
+      });
 
-        return () => {
-            // Clean up any NFC-related resources if needed
-        };
-    }, []);
+      ndef.addEventListener("reading", ({ message, serialNumber }:any) => {
+        console.log(`> Serial Number: ${serialNumber}`);
+        console.log(`> Records: (${message.records.length})`);
+      });
+    } catch (error) {
+      console.log("Argh! " + error);
+    }
+  };
 
+  const handleWriteClick = async () => {
+    console.log("User clicked write button");
 
-    const startNFC = async () => {
-        try {
-            const ndef = new NDEFReader();
+    try {
+      const ndef = new NDEFReader();
+      await ndef.write("Hello world!");
+      console.log("> Message written");
+    } catch (error) {
+      console.log("Argh! " + error);
+    }
+  };
 
-            ndef.onreadingerror = () => {
-                console.log("Cannot read data from the NFC tag. Try another one?");
-            };
-            ndef.onreading = (event:any) => {
-                console.log("NDEF message read.");
-                console.log(event);
-                const textDecoder = new TextDecoder();
-                setTagData2(textDecoder.decode(event.records[0].data));
-            };
+  const handleMakeReadOnlyClick = async () => {
+    console.log("User clicked make read-only button");
 
-            ndef.addEventListener('reading', ({ message }: any) => {
-                const textDecoder = new TextDecoder();
-                setTagData(textDecoder.decode(message.records[0].data));
-            });
+    try {
+      const ndef = new NDEFReader();
+      await ndef.makeReadOnly();
+      console.log("> NFC tag has been made permanently read-only");
+    } catch (error) {
+      console.log("Argh! " + error);
+    }
+  };
 
-            await ndef.scan();
-        } catch (error) {
-            console.error('Error starting NFC:', error);
-        }
-    };
-
-    return (
-        <div>
-            {nfcSupported ? (
-                <p>Place an NFC tag near the device to read data.</p>
-            ) : (
-                <p>NFC not supported on this browser.</p>
-            )}
-            {tagData && <p>Tag Data: {tagData}</p>}
-            {tagData2 && <p>Tag Data: {tagData2}</p>}
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={handleScanClick}>Scan NFC</button>
+      <button onClick={handleWriteClick}>Write to NFC</button>
+      <button onClick={handleMakeReadOnlyClick}>Make Read-Only</button>
+    </div>
+  );
 };
 
-export default NFCReader;
+export default NFCComponent;
+
