@@ -5,14 +5,14 @@ import React, { useState, useEffect } from 'react';
 const NFCReader: React.FC = () => {
     const [nfcSupported, setNfcSupported] = useState(false);
     const [tagData, setTagData] = useState('');
+    const [tagData2, setTagData2] = useState('');
 
     useEffect(() => {
-        console.log(window)
         if ('NDEFReader' in window) {
             setNfcSupported(true);
             startNFC();
         } else {
-            // console.error('Web NFC not supported on this browser.');
+            alert("NFC is not supported.");
         }
 
         return () => {
@@ -20,11 +20,22 @@ const NFCReader: React.FC = () => {
         };
     }, []);
 
+
     const startNFC = async () => {
         try {
             const ndef = new NDEFReader();
 
-            ndef.addEventListener('reading', ({ message }:any) => {
+            ndef.onreadingerror = () => {
+                console.log("Cannot read data from the NFC tag. Try another one?");
+            };
+            ndef.onreading = (event:any) => {
+                console.log("NDEF message read.");
+                console.log(event);
+                const textDecoder = new TextDecoder();
+                setTagData2(textDecoder.decode(event.records[0].data));
+            };
+
+            ndef.addEventListener('reading', ({ message }: any) => {
                 const textDecoder = new TextDecoder();
                 setTagData(textDecoder.decode(message.records[0].data));
             });
@@ -43,6 +54,7 @@ const NFCReader: React.FC = () => {
                 <p>NFC not supported on this browser.</p>
             )}
             {tagData && <p>Tag Data: {tagData}</p>}
+            {tagData2 && <p>Tag Data: {tagData2}</p>}
         </div>
     );
 };
