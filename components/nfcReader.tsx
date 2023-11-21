@@ -27,7 +27,7 @@ const NFCComponent = () => {
           };
         })
         .catch((error) => {
-          console.log(`Error! Scan failed to start: ${error}.`);
+          alert(`Error! Scan failed to start: ${error}.`);
         });
     } catch (error) {
       alert("Argh! " + error);
