@@ -11,14 +11,16 @@ const NFCComponent = () => {
       ndef
         .scan()
         .then(() => {
-          console.log("Scan started successfully.");
+          alert("Scanning.");
           ndef.onreadingerror = (event) => {
-            console.log(
+            alert("Scan Failed.");
+            alert(
               "Error! Cannot read data from the NFC tag. Try a different one?",
             );
             alert(event)
           };
           ndef.onreading = event => {
+            alert("Scan started successfully.");
             const message = event.message;
             for (const record of message.records) {
               alert("Record type:  " + record.recordType);
