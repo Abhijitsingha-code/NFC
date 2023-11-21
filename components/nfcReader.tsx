@@ -17,6 +17,7 @@ const NFCComponent = () => {
             console.log(
               "Error! Cannot read data from the NFC tag. Try a different one?",
             );
+            alert(event)
           };
           ndef.onreading = ({ event, serialNumber }: any) => {
             alert(event)
