@@ -2,12 +2,11 @@
 import { useState, useEffect } from 'react';
 
 const NFCComponent = () => {
-  const [scanData, setScanData] = useState(null);
+  const [scanData, setScanData] = useState<string | null>(null);
 
   const handleScanClick = async () => {
-    console.log("User clicked scan button");
 
-    try {
+    if ('NDEFReader' in window) {
       const ndef = new NDEFReader();
       ndef
         .scan()
@@ -19,18 +18,22 @@ const NFCComponent = () => {
             );
             alert(event)
           };
-          ndef.onreading = ({ event, serialNumber }: any) => {
-            alert(event)
-            alert(serialNumber)
-            const scannedData = event.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
-            setScanData(scannedData);
+          ndef.onreading = event => {
+            const message = event.message;
+            for (const record of message.records) {
+              alert("Record type:  " + record.recordType);
+              alert("MIME type:    " + record.mediaType);
+              alert("Record id:    " + record.id);
+              const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
+              setScanData(scannedData);
+            }
           };
         })
         .catch((error) => {
           alert(`Error! Scan failed to start: ${error}.`);
         });
-    } catch (error) {
-      alert("Argh! " + error);
+    }else{
+      alert(`NFC not supported.`);
     }
   };
 
@@ -47,3 +50,4 @@ const NFCComponent = () => {
 };
 
 export default NFCComponent;
+
