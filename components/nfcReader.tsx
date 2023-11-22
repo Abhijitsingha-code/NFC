@@ -13,30 +13,16 @@ const NFCComponent = () => {
         .scan()
         .then(() => {
           alert("Scanning.");
+
           ndef.onreadingerror = (event) => {
-            alert("Scan Failed.");
-            alert(
-              "Error! Cannot read data from the NFC tag. Try a different one?",
-            );
-            alert(event)
+            alert(`Error! Cannot read data from the NFC tag. Try a different one? ${event}`);
           };
+
           ndef.onreading = (event) => {
             alert("Scan started successfully.");
             alert(`Serial Number: ${event.serialNumber}`);
-
-            alert(`NDEF Message:`);
-            const message = event.message;
-            // alert(`NDEF Message: ${JSON.stringify(message)}`);
-            // Process each record in the NDEF message
-            message.records.forEach((record) => {
-              // Convert record data to ArrayBuffer
-              const dataBuffer = record.data;
-              const text = new TextDecoder().decode(dataBuffer);
-              setMessage1((prev: any) => prev + ' ' + text);
-            });
-
-            // Alert the entire message (for debugging purposes)
-            alert(`NDEF Message: ${JSON.stringify(message1)}`);
+            alert(`Record Type: ${event.message.records}`);
+            alert(`NDEF Message length: ${event.message.records.length}`);
           }
         })
         .catch((error) => {
