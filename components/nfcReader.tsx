@@ -24,6 +24,7 @@ const NFCComponent = () => {
             alert("Scan started successfully.");
             alert(`Serial Number: ${event.serialNumber}`);
 
+            alert(`NDEF Message:`);
             const message = event.message;
             alert(`NDEF Message: ${JSON.stringify(message)}`);
             // Process each record in the NDEF message
