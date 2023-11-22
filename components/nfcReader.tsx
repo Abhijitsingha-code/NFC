@@ -29,8 +29,9 @@ const NFCComponent = () => {
               const dataBuffer = record.data;
               const text = new TextDecoder().decode(dataBuffer);
               // Display text in an alert for debugging
-              alert(text);
+              setMessage((prev: any) => prev + ' ' + text)
             });
+            alert(`message ${message}`);
           };
         })
         .catch((error) => {
