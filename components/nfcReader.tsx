@@ -20,19 +20,23 @@ const NFCComponent = () => {
             );
             alert(event)
           };
-          ndef.onreading = event => {
+          ndef.onreading = (event) => {
             alert("Scan started successfully.");
-            alert(event.serialNumber)
+            alert(`Serial Number: ${event.serialNumber}`);
+
             const message = event.message;
+
+            // Process each record in the NDEF message
             message.records.forEach((record) => {
               // Convert record data to ArrayBuffer
               const dataBuffer = record.data;
               const text = new TextDecoder().decode(dataBuffer);
-              // Display text in an alert for debugging
-              setMessage((prev: any) => prev + ' ' + text)
+              setMessage((prev: any) => prev + ' ' + text);
             });
-            alert(`message ${message}`);
-          };
+
+            // Alert the entire message (for debugging purposes)
+            alert(`NDEF Message: ${JSON.stringify(message)}`);
+          }
         })
         .catch((error) => {
           alert(`Error! Scan failed to start: ${error}.`);
