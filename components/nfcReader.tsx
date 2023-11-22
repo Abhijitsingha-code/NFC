@@ -23,14 +23,15 @@ const NFCComponent = () => {
             alert("Scan started successfully.");
             alert(event.serialNumber)
             const message = event.message;
-            for (const record of message.records) {
-              alert("Record type:  " + record.recordType);
-              alert("MIME type:    " + record.mediaType);
-              alert("Record id:    " + record.id);
-              const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
-              setScanData(scannedData);
-              alert(scannedData)
-            }
+            // for (const record of message.records) {
+            //   alert("Record type:  " + record.recordType);
+            //   alert("MIME type:    " + record.mediaType);
+            //   alert("Record id:    " + record.id);
+            // }
+            alert(`message: ${message}`)
+            const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
+            setScanData(scannedData);
+            alert(`scannedData: ${scannedData}`);
           };
         })
         .catch((error) => {
