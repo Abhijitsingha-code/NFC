@@ -25,17 +25,17 @@ const NFCComponent = () => {
             alert(`Serial Number: ${event.serialNumber}`);
 
             const message = event.message;
-
-            // Process each record in the NDEF message
-            message.records.forEach((record) => {
-              // Convert record data to ArrayBuffer
-              const dataBuffer = record.data;
-              const text = new TextDecoder().decode(dataBuffer);
-              setMessage((prev: any) => prev + ' ' + text);
-            });
-
-            // Alert the entire message (for debugging purposes)
             alert(`NDEF Message: ${JSON.stringify(message)}`);
+            // Process each record in the NDEF message
+            // message.records.forEach((record) => {
+            //   // Convert record data to ArrayBuffer
+            //   const dataBuffer = record.data;
+            //   const text = new TextDecoder().decode(dataBuffer);
+            //   setMessage((prev: any) => prev + ' ' + text);
+            // });
+
+            // // Alert the entire message (for debugging purposes)
+            // alert(`NDEF Message: ${JSON.stringify(message)}`);
           }
         })
         .catch((error) => {
