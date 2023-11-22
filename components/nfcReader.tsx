@@ -29,27 +29,13 @@ const NFCComponent = () => {
               alert("Record id:    " + record.id);
               const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
               setScanData(scannedData);
+              alert(scannedData)
             }
           };
         })
         .catch((error) => {
           alert(`Error! Scan failed to start: ${error}.`);
         });
-
-      //   const ndef = new NDEFReader();
-      //   ndef.scan().then(() => {
-      //     alert("Scan started successfully.");
-      //     ndef.onreadingerror = () => {
-      //       alert("Cannot read data from the NFC tag. Try another one?");
-      //     };
-      //     ndef.onreading = event => {
-      //       alert("NDEF message read.");
-      //     };
-      //   }).catch(error => {
-      //     alert(`Error! Scan failed to start: ${error}.`);
-      //   });
-      // } else {
-      //   alert(`NFC not supported.`);
     }
   };
 
