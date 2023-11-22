@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const NFCComponent = () => {
   const [scanData, setScanData] = useState<string | null>(null);
-  const [message, setMessage] = useState<any>()
+  const [message1, setMessage1] = useState<any>()
 
   const handleScanClick = async () => {
 
@@ -26,17 +26,17 @@ const NFCComponent = () => {
 
             alert(`NDEF Message:`);
             const message = event.message;
-            alert(`NDEF Message: ${JSON.stringify(message)}`);
-            // Process each record in the NDEF message
-            // message.records.forEach((record) => {
-            //   // Convert record data to ArrayBuffer
-            //   const dataBuffer = record.data;
-            //   const text = new TextDecoder().decode(dataBuffer);
-            //   setMessage((prev: any) => prev + ' ' + text);
-            // });
-
-            // // Alert the entire message (for debugging purposes)
             // alert(`NDEF Message: ${JSON.stringify(message)}`);
+            // Process each record in the NDEF message
+            message.records.forEach((record) => {
+              // Convert record data to ArrayBuffer
+              const dataBuffer = record.data;
+              const text = new TextDecoder().decode(dataBuffer);
+              setMessage1((prev: any) => prev + ' ' + text);
+            });
+
+            // Alert the entire message (for debugging purposes)
+            alert(`NDEF Message: ${JSON.stringify(message1)}`);
           }
         })
         .catch((error) => {
