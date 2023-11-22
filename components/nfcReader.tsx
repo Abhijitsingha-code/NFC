@@ -20,24 +20,11 @@ const NFCComponent = () => {
           ndef.onreading = (event) => {
             alert("Scan started successfully.");
             alert(`Serial Number: ${event.serialNumber}`);
-            alert(`Record Data: ${event.message.records[0]}`);
-            const recordsString = JSON.stringify(event.message.records[0], null, 2); // JSON.stringify to convert array to string
-            alert(`NFC Records:\n${recordsString}`);
+            alert(`Record id: ${event.message.records[0].id}`);
+            alert(`Record media Type: ${event.message.records[0].mediaType}`);
+            alert(`Record Data: ${event.message.records[0].data}`);
+            alert(`Record type: ${event.message.records[0].recordType}`);
             alert(`NDEF Message length: ${event.message.records.length}`);
-
-            // event.message.records.forEach((record) => {
-            //   // Accessing common properties of NDEFRecord
-            //   const recordType = record.recordType;
-            //   const mediaType = record.mediaType;
-            //   const id = record.id;
-            //   const data = new TextDecoder().decode(record.data);
-
-            //   // Displaying the properties in an alert (for debugging purposes)
-            //   alert(`Record Type: ${recordType}\nMedia Type: ${mediaType}\nID: ${id}\nData: ${data}`);
-
-            //   // Save the scan data to the state
-            //   setScanData((prevScanData) => [...prevScanData, data]);
-            // });
           }
         })
         .catch((error) => {
