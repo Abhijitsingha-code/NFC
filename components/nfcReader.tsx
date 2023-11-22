@@ -25,7 +25,7 @@ const NFCComponent = () => {
             alert(event.serialNumber)
             const message = event.message;
             setMessage(message)
-            alert(`message: ${message}`)
+            alert(`message: ${message.records}`)
             const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
             setScanData(scannedData);
             alert(`scannedData: ${scannedData}`);
@@ -45,7 +45,7 @@ const NFCComponent = () => {
       {scanData && (
         <p>{scanData}</p>
       )}
-      <p>Message: {message}</p>
+      {/* <p>Message: {message}</p> */}
     </div>
   );
 };
