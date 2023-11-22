@@ -25,6 +25,7 @@ const NFCComponent = () => {
             alert(`Record Data: ${event.message.records[0].data}`);
             alert(`Record type: ${event.message.records[0].recordType}`);
             alert(`NDEF Message length: ${event.message.records.length}`);
+            alert(`Record data length: ${Object.keys(event.message.records[0]).length}`);
           }
         })
         .catch((error) => {
