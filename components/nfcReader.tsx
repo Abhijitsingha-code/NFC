@@ -2,8 +2,7 @@
 import { useState, useEffect } from 'react';
 
 const NFCComponent = () => {
-  const [scanData, setScanData] = useState<string | null>(null);
-  const [message1, setMessage1] = useState<any>()
+  const [scanData, setScanData] = useState<string[]>([]);
 
   const handleScanClick = async () => {
 
@@ -23,6 +22,20 @@ const NFCComponent = () => {
             alert(`Serial Number: ${event.serialNumber}`);
             alert(`Record Data: ${event.message.records.toString()}`);
             alert(`NDEF Message length: ${event.message.records.length}`);
+
+            event.message.records.forEach((record) => {
+              // Accessing common properties of NDEFRecord
+              const recordType = record.recordType;
+              const mediaType = record.mediaType;
+              const id = record.id;
+              const data = new TextDecoder().decode(record.data);
+  
+              // Displaying the properties in an alert (for debugging purposes)
+              alert(`Record Type: ${recordType}\nMedia Type: ${mediaType}\nID: ${id}\nData: ${data}`);
+  
+              // Save the scan data to the state
+              setScanData((prevScanData) => [...prevScanData, data]);
+            });
           }
         })
         .catch((error) => {
@@ -36,9 +49,7 @@ const NFCComponent = () => {
       <button onClick={handleScanClick}>Scan NFC</button>
 
       <h2>Scanned Data</h2>
-      {scanData && (
-        <p>{scanData}</p>
-      )}
+      <p>{scanData}</p>
     </div>
   );
 };
