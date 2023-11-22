@@ -20,8 +20,8 @@ const NFCComponent = () => {
           ndef.onreading = (event) => {
             alert("Scan started successfully.");
             alert(`Serial Number: ${event.serialNumber}`);
-            // alert(`Record Data: ${event.message.records.toString()}`);
-            const recordsString = JSON.stringify(event.message.records, null, 2); // JSON.stringify to convert array to string
+            alert(`Record Data: ${event.message.records[0]}`);
+            const recordsString = JSON.stringify(event.message.records[0], null, 2); // JSON.stringify to convert array to string
             alert(`NFC Records:\n${recordsString}`);
             alert(`NDEF Message length: ${event.message.records.length}`);
 
