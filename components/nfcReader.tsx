@@ -25,8 +25,11 @@ const NFCComponent = () => {
             alert(event.serialNumber)
             const message = event.message;
             message.records.forEach((record) => {
-              const text = new TextDecoder().decode(record.data);
-              alert(text.toString)
+              // Convert record data to ArrayBuffer
+              const dataBuffer = record.data;
+              const text = new TextDecoder().decode(dataBuffer);
+              // Display text in an alert for debugging
+              alert(text);
             });
           };
         })
