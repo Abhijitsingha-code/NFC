@@ -21,7 +21,7 @@ const NFCComponent = () => {
           ndef.onreading = (event) => {
             alert("Scan started successfully.");
             alert(`Serial Number: ${event.serialNumber}`);
-            alert(`Record Type: ${event.message.records.toString()}`);
+            alert(`Record Data: ${event.message.records.toString()}`);
             alert(`NDEF Message length: ${event.message.records.length}`);
           }
         })
