@@ -24,11 +24,10 @@ const NFCComponent = () => {
             alert("Scan started successfully.");
             alert(event.serialNumber)
             const message = event.message;
-            setMessage(message)
-            alert(`message: ${message.records.map((record: any) => new TextDecoder().decode(record.data) ).join('')}`)
-            // const scannedData = message.records.map((record: any) => record.data ? new TextDecoder().decode(record.data) : '').join('');
-            // setScanData(scannedData);
-            // alert(`scannedData: ${scannedData}`);
+            message.records.forEach((record) => {
+              const text = new TextDecoder().decode(record.data);
+              alert(text.toString)
+            });
           };
         })
         .catch((error) => {
